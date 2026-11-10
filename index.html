@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kush Chaurasiya — Video Editor</title>
+  <meta name="description" content="Meet Kush. A video editor who cuts on the beat — reels, YouTube and brand films." />
+  <meta name="theme-color" content="#070d26" />
+  <!-- YouTube embeds must know which site they are on (prevents "Error 153") -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=20261109a" />
+</head>
+<body class="is-loading">
+
+  <!-- ============ LOADER ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <canvas class="loader__static" id="static"></canvas>
+    <div class="loader__ui">
+      <div class="loader__row"><span class="rec-dot"></span> REC</div>
+      <div class="loader__tc" id="loaderTc">00:00:00:00</div>
+      <div class="loader__row loader__row--sub"><span>LOADING FOOTAGE</span><span id="loaderPct">0%</span></div>
+      <div class="loader__bar"><i id="loaderBar"></i></div>
+    </div>
+    <div class="loader__slate" id="slate">
+      <div class="slate__top"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="slate__body">
+        <div><small>PROD.</small>KUSH CHAURASIYA</div>
+        <div><small>ROLE</small>VIDEO EDITOR</div>
+        <div class="slate__grid"><span><small>SCENE</small>01</span><span><small>TAKE</small>01</span><span><small>ROLL</small>A</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CURSOR ============ -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__frame" id="cursorFrame"><i></i><i></i><i></i><i></i></div>
+    <div class="cursor__dot" id="cursorDot"></div>
+    <div class="cursor__label" id="cursorLabel"></div>
+  </div>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ TICKER + HEADER ============ -->
+  <div class="ticker" id="ticker">
+    <div class="ticker__track">
+      <span>NOW TAKING EDITS FOR 2027 <b>●</b> REELS • YOUTUBE • BRAND FILMS <b>●</b> CUTS THAT HIT ON THE BEAT <b>●</b> </span>
+      <span>NOW TAKING EDITS FOR 2027 <b>●</b> REELS • YOUTUBE • BRAND FILMS <b>●</b> CUTS THAT HIT ON THE BEAT <b>●</b> </span>
+      <span>NOW TAKING EDITS FOR 2027 <b>●</b> REELS • YOUTUBE • BRAND FILMS <b>●</b> CUTS THAT HIT ON THE BEAT <b>●</b> </span>
+      <span>NOW TAKING EDITS FOR 2027 <b>●</b> REELS • YOUTUBE • BRAND FILMS <b>●</b> CUTS THAT HIT ON THE BEAT <b>●</b> </span>
+    </div>
+    <button class="ticker__close" id="tickerClose" aria-label="Close banner" data-cursor-label="CLOSE">✕</button>
+  </div>
+
+  <header class="header" id="header">
+    <a href="#top" class="logo" data-scroll-to="#top" aria-label="Kush — home">
+      <span class="logo__word">kush</span><span class="logo__rec"></span>
+    </a>
+    <div class="header__tc" aria-hidden="true"><span class="rec-dot"></span><span id="clockTc">00:00:00:00</span></div>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" data-cursor-label="MENU">
+      <i></i><i></i><i></i>
+    </button>
+  </header>
+
+  <nav class="menu" id="menu" aria-hidden="true">
+    <canvas class="marble" data-marble></canvas>
+    <ul class="menu__list">
+      <li><a href="#about" data-scroll-to="#about"><small>01</small><span class="roll" data-text="ABOUT">ABOUT</span></a></li>
+      <li><a href="#services" data-scroll-to="#services"><small>02</small><span class="roll" data-text="SERVICES">SERVICES</span></a></li>
+      <li><a href="#work" data-scroll-to="#work"><small>03</small><span class="roll" data-text="WORK">WORK</span></a></li>
+      <li><a href="#contact" data-scroll-to="#contact"><small>04</small><span class="roll" data-text="CONTACT">CONTACT</span></a></li>
+    </ul>
+    <button class="menu__reel" id="menuReel" data-cursor-label="PLAY"><span class="rec-dot"></span> WATCH SHOWREEL</button>
+    <p class="menu__foot hand">cut. paste. repeat.</p>
+  </nav>
+
+  <button class="reel-tab" id="reelTab" data-cursor-label="PLAY">
+    <span>▶ SHOWREEL</span>
+  </button>
+
+  <!-- ============ SCRUBBER HUD ============ -->
+  <div class="scrubber" id="scrubber" aria-hidden="true">
+    <span class="scrubber__file">KUSH_PORTFOLIO_FINAL_v27.mp4</span>
+    <div class="scrubber__track" id="scrubTrack" data-cursor-label="SCRUB"><i id="scrubFill"></i><b id="scrubHead"></b></div>
+    <span class="scrubber__tc" id="scrubTc">00:00:00:00</span>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" data-theme="light">
+      <div class="hero__stage" id="heroStage">
+        <h1 class="sr-only">Hello, meet Kush Chaurasiya — a video editor who cuts on the beat.</h1>
+
+        <div class="h-hello layer" data-depth="0.25" aria-hidden="true"><span class="split">HELLO</span></div>
+
+        <div class="h-tag layer" data-depth="0.5" aria-hidden="true">
+          <span class="h-tag__dot"></span>
+          <span class="h-tag__brace">{{</span>
+          <span class="h-tag__word" id="typeWord">first name</span><span class="h-tag__caret"></span>
+          <span class="h-tag__brace">}}</span>
+        </div>
+
+        <div class="h-person layer" data-depth="0.6" id="heroPerson">
+          <svg class="h-scribble h-scribble--back" viewBox="-300 -120 1311 1318" aria-hidden="true">
+            <defs>
+              <filter id="rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter>
+            </defs>
+            <g filter="url(#rough)">
+              <path class="draw" d="M-24 520 C -84 610, -6 690, -64 772 S -18 892, -74 990 S -40 1110, -30 1190"/>
+              <path class="draw" d="M-118 610 C -162 700, -84 772, -138 862 S -104 990, -146 1110"/>
+              <path class="draw" d="M736 470 C 790 560, 734 644, 796 726 S 818 884, 774 966 S 816 1086, 804 1196"/>
+              <path class="draw" d="M-200 770 C -236 852, -168 910, -210 1000"/>
+            </g>
+          </svg>
+          <img src="assets/kush-hero.png" alt="Kush Chaurasiya in a cream shirt and glasses, looking at the camera" class="h-person__img" id="heroImg" />
+          <svg class="h-scribble h-scribble--front" viewBox="-300 -120 1311 1318" aria-hidden="true">
+            <g filter="url(#rough)">
+              <path class="draw" d="M770 372 C 852 466, 798 560, 870 652 S 892 826, 848 970"/>
+              <path class="draw" d="M104 960 C 70 1046, 126 1110, 94 1196"/>
+              <path class="draw" d="M548 300 C 590 280, 632 298, 652 344"/>
+              <path class="draw h-arrow" d="M980 -30 C 880 -92, 680 -54, 498 112"/>
+              <path class="draw h-arrow" d="M498 112 L 560 100 M 498 112 L 518 172"/>
+              <path class="spark" d="M222 4 l9 21 l21 9 l-21 9 l-9 21 l-9 -21 l-21 -9 l21 -9z"/>
+              <path class="spark" d="M186 196 l6 15 l15 6 l-15 6 l-6 15 l-6 -15 l-15 -6 l15 -6z"/>
+              <path class="spark" d="M70 312 l7.5 18 l18 7.5 l-18 7.5 l-7.5 18 l-7.5 -18 l-18 -7.5 l18 -7.5z"/>
+            </g>
+            <text class="h-note" x="690" y="-70" transform="rotate(-8 690 -70)">that's me!</text>
+          </svg>
+        </div>
+
+        <div class="h-meet layer" data-depth="0.3" aria-hidden="true"><span class="split">MEET</span></div>
+
+        <div class="h-right layer" data-depth="0.4">
+          <p class="h-sub">A VIDEO EDITOR WHO CUTS ON THE BEAT.</p>
+          <div class="h-kush" aria-hidden="true"><span class="split">KUSH</span></div>
+        </div>
+
+        <div class="h-scroll" aria-hidden="true"><span>SCROLL TO PLAY</span><i></i></div>
+      </div>
+    </section>
+
+    <!-- ============ HANDWRITTEN QUOTE ============ -->
+    <section class="quote" data-theme="light">
+      <div class="quote__marks" aria-hidden="true"></div>
+      <div class="quote__grid">
+        <blockquote class="quote__text hand">
+          <span class="q-line">“every frame is a choice.</span>
+          <span class="q-line">every cut is a heartbeat.</span>
+          <span class="q-line">i don't just edit videos&nbsp;—</span>
+          <span class="q-line">i make people <em>feel</em> them.”</span>
+          <span class="q-line q-sign">– me, at 3am, on export #14</span>
+        </blockquote>
+        <figure class="quote__photo">
+          <div class="qp__frame">
+            <img src="assets/kush-cinema.jpg" alt="Kush in a navy sweater with arms crossed, against a navy marbled backdrop between torn paper edges" />
+          </div>
+          <figcaption class="qp__cap hand">
+            <span class="q-line">Let me show you what i do</span>
+            <svg class="qp__arrow" viewBox="0 0 60 90" aria-hidden="true"><path d="M30 4 C 18 26, 44 44, 28 70 M 28 70 L 14 56 M 28 70 L 40 54"/></svg>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about" data-theme="light">
+      <div class="about__grid">
+        <div class="about__media">
+          <div class="tilt" data-tilt>
+            <div class="tilt__card">
+              <img src="assets/kush-about.jpg" alt="Kush in a tan knit sweater and round glasses, looking off to the side against a navy backdrop" />
+              <span class="tape tape--l"></span><span class="tape tape--r"></span>
+            </div>
+          </div>
+          <p class="about__caption hand">↑ the guy behind the timeline</p>
+        </div>
+        <div class="about__copy">
+          <p class="eyebrow">( 01 — ABOUT )</p>
+          <h2 class="about__title">
+            <span class="line"><span>I'M KUSH.</span></span>
+            <span class="line"><span>I MAKE FOOTAGE</span></span>
+            <span class="line"><span class="accent">FEEL SOMETHING.</span></span>
+          </h2>
+          <p class="about__para scrub-words">I'm a <b class="hl">first-year B.Tech student</b> at <b class="hl">MNIT Jaipur</b> — a <em class="hl-rec">content creator</em> and <em class="hl-rec">video editor</em> with a passion for making footage feel something.</p>
+
+          <div class="roles">
+            <p class="about__label"><span class="rec-dot"></span> CURRENTLY</p>
+            <ul>
+              <li class="role">
+                <span class="role__n">01</span>
+                <div>
+                  <h3><span class="role__org">CACS</span><span class="role__as">VIDEO EDITOR</span></h3>
+                  <p>The cultural society of MNIT Jaipur, the team behind <mark>Blitzschlag</mark>, <strong>the biggest cultural fest of Rajasthan</strong>.</p>
+                </div>
+              </li>
+              <li class="role">
+                <span class="role__n">02</span>
+                <div>
+                  <h3><span class="role__org">MAVERICKS</span><span class="role__as">VIDEO EDITOR</span></h3>
+                  <p>The <strong>mass &amp; media club</strong> of MNIT Jaipur.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="achievements">
+            <p class="about__label">★ ACHIEVEMENTS · YOUTUBE</p>
+            <div class="stats">
+              <div class="stat"><b data-count="200" data-suffix="K+">200K+</b><span>views</span></div>
+              <div class="stat"><b data-count="420" data-suffix="+">420+</b><span>subscribers</span></div>
+              <a class="stat stat--yt" id="ytLink" href="https://www.youtube.com/@KushChaurasiya06" target="_blank" rel="noopener" data-cursor-label="WATCH ↗">
+                <span class="yt-ico" aria-hidden="true">▶</span>
+                <b>Kush Chaurasiya</b>
+                <span>youtube channel ↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES (pinned) ============ -->
+    <section class="services" id="services" data-theme="light">
+      <div class="services__pin">
+        <div class="services__left">
+          <h2 class="services__title">I'M YOUR PERSON<br/>TO MAKE IT MOVE</h2>
+          <a href="#contact" class="bracket-btn" data-scroll-to="#contact"><span class="roll" data-text="PUT ME TO WORK">PUT ME TO WORK</span></a>
+        </div>
+        <div class="services__right">
+          <ul class="services__list" id="servicesList">
+            <li>VIDEO EDITING</li>
+            <li>COLOR GRADING</li>
+            <li>MOTION GRAPHICS</li>
+            <li>SOUND DESIGN</li>
+            <li>REELS &amp; SHORTS</li>
+            <li>YOUTUBE EDITS</li>
+            <li>BRAND FILMS</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORK (3D reel) ============ -->
+    <section class="work" id="work" data-theme="dark">
+      <div class="torn" data-torn="paper" aria-hidden="true"></div>
+      <canvas class="marble" data-marble></canvas>
+      <div class="work__pin">
+        <div class="work__head">
+          <p class="eyebrow">( 02 — WORK )</p>
+          <h2 class="work__title">CUTS I'M SUPER<br/><span class="accent">PROUD OF.</span></h2>
+        </div>
+        <div class="reel" id="reelScene">
+          <div class="reel__ring" id="reelRing"></div>
+        </div>
+        <div class="work__meta">
+          <span id="workCount">01 / 09</span>
+          <span class="work__now" id="workNow">EVENT AFTERMOVIE</span>
+          <span class="work__hint">click a frame to play</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="faq" id="faq" data-theme="light">
+      <div class="torn" data-torn="deep" aria-hidden="true"></div>
+      <h2 class="faq__title">BEFORE YOU ASK...</h2>
+      <ol class="faq__list">
+        <li class="faq__item"><span class="faq__n">01</span><h3>HOW SOON CAN<br/>YOU START?</h3><p>the moment the footage lands. honestly, i'm probably already editing something.</p></li>
+        <li class="faq__item"><span class="faq__n">02</span><h3>WHAT DO YOU<br/>CUT IN?</h3><p>DaVinci Resolve and Canva.</p></li>
+        <li class="faq__item"><span class="faq__n">03</span><h3>HOW MANY<br/>REVISIONS?</h3><p>enough to get it right. tell me exactly what bugs you and i'll fix it fast.</p></li>
+        <li class="faq__item"><span class="faq__n">04</span><h3>WHAT DO YOU<br/>NEED FROM ME?</h3><p>raw footage, a reference or two you love, and the vibe in three words. i'll handle the rest.</p></li>
+      </ol>
+    </section>
+
+    <!-- ============ CONTACT / FOOTER ============ -->
+    <footer class="contact" id="contact" data-theme="dark">
+      <div class="torn" data-torn="paper" aria-hidden="true"></div>
+      <canvas class="marble" data-marble></canvas>
+      <div class="contact__inner">
+        <p class="contact__hand hand"><span class="q-line">your footage deserves</span> <span class="q-line">an unfair advantage.</span></p>
+
+        <div class="contact__row">
+          <div class="contact__cta">
+            <p class="eyebrow contact__eyebrow"><span class="rec-dot"></span> ( 03 — LET'S WORK )</p>
+            <h2 class="contact__title">
+              <span>SEND THE FOOTAGE.</span>
+              <span>I'LL SEND BACK</span>
+              <span class="accent">A FEELING.</span>
+            </h2>
+            <ol class="contact__steps">
+              <li><b>01</b><span>Drop the raw files</span></li>
+              <li><b>02</b><span>Share a reference you love</span></li>
+              <li><b>03</b><span>Get a cut people replay</span></li>
+            </ol>
+            <p class="contact__lead">i'm even better on a call.<br/>say hi at</p>
+            <a class="contact__mail" id="mailLink" href="mailto:kushchorasiya@gmail.com" data-cursor-label="SAY HI">
+              <span class="roll" data-text="kushchorasiya@gmail.com" id="mailText">kushchorasiya@gmail.com</span>
+            </a>
+            <ul class="socials" id="socials"></ul>
+          </div>
+          <div class="contact__figure"><img class="contact__kush" src="assets/kush-footer.png" alt="Kush seen from behind in black, arms spread wide, looking up" /></div>
+          <div class="contact__nav">
+            <a href="#top" class="bracket-btn" data-scroll-to="#top"><span class="roll" data-text="BACK TO TOP">BACK TO TOP</span></a>
+            <ul>
+              <li><a href="#about" data-scroll-to="#about">ABOUT <small>01</small></a></li>
+              <li><a href="#services" data-scroll-to="#services">SERVICES <small>02</small></a></li>
+              <li><a href="#work" data-scroll-to="#work">WORK <small>03</small></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="contact__legal">
+          <span>EDITED WITH ☕ + 🎧 + TOO MANY KEYFRAMES</span>
+          <span>© <span id="year"></span> KUSH CHAURASIYA. ALL RIGHTS RESERVED.</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============ VIDEO MODAL ============ -->
+  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Video player">
+    <button class="modal__close" id="modalClose" data-cursor-label="CLOSE">✕ CLOSE</button>
+    <div class="modal__player" id="modalPlayer"></div>
+    <div class="modal__info">
+      <p class="modal__title" id="modalTitle"></p>
+      <a class="modal__yt" id="modalYt" href="#" target="_blank" rel="noopener" hidden>WATCH ON YOUTUBE ↗</a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js?v=20261109a"></script>
+</body>
+</html>
